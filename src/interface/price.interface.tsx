@@ -9,7 +9,7 @@ export enum CurrencyType {
 }
 
 export interface IPrice {
-  id: string;
+  id: number;
   price: number;
   competitors?: object;
   taxes_and_fees?: {

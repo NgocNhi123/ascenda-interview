@@ -25,8 +25,15 @@ export default function HotelInfo(props: Props): JSX.Element {
         height="50%"
         layout="responsive"
         className="rounded-md"
+        unoptimized
+        priority
       />
-      <div className="uppercase font-bold tracking-widest text-center text-2xl w-full">
+      <div
+        className={[
+          "text-center w-full",
+          "uppercase font-bold tracking-widest text-2xl",
+        ].join(" ")}
+      >
         {details.name}
       </div>
       <div>

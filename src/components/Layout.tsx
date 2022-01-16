@@ -25,9 +25,19 @@ export default function Layout(props: Props): JSX.Element {
         <link rel="icon" href="/hotel.png" />
       </Head>
 
-      <div className="w-full flex justify-end items-center px-8 py-4 bg-orange-900 text-orange-200">
+      <div
+        className={[
+          "w-full flex justify-end items-center px-8 py-4",
+          "bg-orange-900 text-orange-200",
+        ].join(" ")}
+      >
         <Link href="/" passHref>
-          <div className="uppercase mr-auto text-xl font-bold hover:cursor-pointer select-none">
+          <div
+            className={[
+              "mr-auto select-none hover:cursor-pointer",
+              "uppercase text-xl font-bold",
+            ].join(" ")}
+          >
             le hôtel
           </div>
         </Link>

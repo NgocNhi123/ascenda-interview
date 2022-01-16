@@ -1,14 +1,13 @@
-import { Button, Pane, Table } from "@moai/core";
+import { Pane, Table } from "@moai/core";
 import { useEffect, useState } from "react";
 import { CurrencyType, IPrice } from "../../interface/price.interface";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { useLocalStorage } from "usehooks-ts";
 
 interface Props {
   price: IPrice;
 }
 
-const getPrice = (value: number, currency: CurrencyType): number => {
+export const getPrice = (value: number, currency: CurrencyType): number => {
   if (
     currency === CurrencyType.USD ||
     currency === CurrencyType.SGD ||
@@ -40,7 +39,9 @@ export default function ComparePrice(props: Props): JSX.Element {
     setTotal(result);
 
     if (price.competitors) {
-      const entries: [string, number][] = Object.entries(price.competitors);
+      const entries: [string, number][] = Object.entries(price.competitors).map(
+        (v) => [v[0], getPrice(v[1], currency)]
+      );
       entries.push(["Le hôtel", result]);
       setCompetitors(entries.sort((a, b) => a[1] - b[1]));
     }
@@ -50,25 +51,34 @@ export default function ComparePrice(props: Props): JSX.Element {
     <>
       {total && (
         <div className="w-1/2 p-4 space-y-4">
-          <div className="uppercase font-bold tracking-widest p-4 text-center text-2xl w-full">
+          <div
+            className={[
+              "w-full p-4 text-center",
+              "uppercase font-bold tracking-widest text-2xl",
+            ].join(" ")}
+          >
             Compare price
           </div>
           <Pane>
-            <Button
-              icon={
-                price.taxes_and_fees && (isOpen ? FaChevronUp : FaChevronDown)
-              }
-              iconRight
-              onClick={() => setIsOpen(!isOpen)}
-              fill
-              style={Button.styles.flat}
+            <div
+              className={[
+                "w-full select-none text-center",
+                "tracking-wider text-xl font-medium",
+                "hover:cursor-pointer hover:font-bold",
+              ].join(" ")}
+              onMouseOver={() => setIsOpen(true)}
+              onMouseLeave={() => setIsOpen(false)}
             >
-              <div className="tracking-wider text-xl font-medium">
-                Our offer: {total}
-              </div>
-            </Button>
+              Our offer: {total}
+              {price.taxes_and_fees && "*"}
+            </div>
             {isOpen && price.taxes_and_fees && (
-              <div className="tracking-wider text-md flex justify-around items-center px-4 pt-2">
+              <div
+                className={[
+                  "flex justify-around items-center px-4 pt-2",
+                  "tracking-wider text-md",
+                ].join(" ")}
+              >
                 <div>
                   <strong>Price: </strong>
                   {getPrice(price.price, currency)}
@@ -84,8 +94,8 @@ export default function ComparePrice(props: Props): JSX.Element {
               </div>
             )}
           </Pane>
-          {competitors && (
-            <div className="border border-orange-700 overflow-auto">
+          {competitors ? (
+            <div className="border border-orange-700 overflow-auto max-h-96">
               <Table
                 columns={[
                   {
@@ -104,23 +114,30 @@ export default function ComparePrice(props: Props): JSX.Element {
                     className: "border-r border-orange-700 text-center",
                   },
                   {
-                    title: "Saving",
+                    title: "When booking with Le hôtel",
                     render: (v) => {
                       const saving = Math.round(total / v[1]);
                       return v[1] > total ? `Save ${saving}%` : "_";
                     },
-                    className: "text-center",
+                    className: "text-center w-56",
                   },
                 ]}
                 rowKey={(v) => v[0]}
                 rows={competitors}
                 fill
                 rowClassName={(v) =>
-                  v[0] === "Le hôtel" ? "bg-yellow-300 font-medium" : ""
+                  v[0] === "Le hôtel"
+                    ? "bg-yellow-300 font-semibold"
+                    : v[1] === competitors[competitors.length - 1][1]
+                    ? "bg-red-300 font-semibold"
+                    : ""
                 }
               />
             </div>
+          ) : (
+            <div className="text-center text-lg">No competitor found</div>
           )}
+          <div className="w-full text-right text-base">(*) Tax-inclusive</div>
         </div>
       )}
     </>
