@@ -66,7 +66,6 @@ export default function HotelDetails(): JSX.Element {
       {details && price && (
         <div className="text-red-700 w-full h-full flex">
           <HotelInfo details={details} />
-          <div className="h-full border-l border-orange-700" />
           <ComparePrice price={price} />
         </div>
       )}

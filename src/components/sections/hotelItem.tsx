@@ -16,7 +16,7 @@ export const renderStar = (stars: number): React.ReactNode => {
   return result;
 };
 
-const myLoader = (props: { src: string }) => {
+export const myLoader = (props: { src: string }) => {
   return props.src;
 };
 

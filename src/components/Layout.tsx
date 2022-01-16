@@ -15,7 +15,7 @@ export default function Layout(props: Props): JSX.Element {
   );
 
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-screen h-full min-w-screen w-full">
       <Head>
         <title>Hotel result currency</title>
         <meta
@@ -44,6 +44,7 @@ export default function Layout(props: Props): JSX.Element {
             setValue={(v) => {
               setCurrency(v as CurrencyType);
             }}
+            style={Select.styles.flat}
           />
         </div>
       </div>

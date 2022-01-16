@@ -3,14 +3,17 @@ export enum CurrencyType {
   SGD = "SGD",
   CNY = "CNY",
   KRW = "KRW",
+  // Mention in document but no api for these currency
+  // JPY = "JPY",
+  // IDR = "IDR",
 }
 
 export interface IPrice {
   id: string;
-  price: string;
+  price: number;
   competitors?: object;
   taxes_and_fees?: {
-    tax: string;
-    hotel_fees: string;
+    tax: number;
+    hotel_fees: number;
   };
 }
