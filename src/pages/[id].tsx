@@ -63,11 +63,15 @@ export default function HotelDetails(): JSX.Element {
 
   return (
     <Layout>
-      {details && price && (
-        <div className="text-red-700 w-full h-full flex">
-          <HotelInfo details={details} />
-          <ComparePrice price={price} />
+      {details ? (
+        <div className="text-red-700 w-full h-full flex flex-wrap justify-center">
+          <div className={price ? "md:w-1/2" : "md:w-2/3"}>
+            <HotelInfo details={details} />
+          </div>
+          {price && <ComparePrice price={price} />}
         </div>
+      ) : (
+        <div className="w-full text-red-700 text-center text-lg">Not found</div>
       )}
       {loading && <Loading />}
     </Layout>

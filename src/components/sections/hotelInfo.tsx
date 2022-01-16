@@ -14,7 +14,7 @@ export default function HotelInfo(props: Props): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-1/2 space-y-4 mr-8">
+    <div className="w-full space-y-4 mr-8">
       <Image
         loader={myLoader}
         src={details.photo}

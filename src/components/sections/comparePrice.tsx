@@ -44,13 +44,15 @@ export default function ComparePrice(props: Props): JSX.Element {
       );
       entries.push(["Le hôtel", result]);
       setCompetitors(entries.sort((a, b) => a[1] - b[1]));
+    } else {
+      setCompetitors([]);
     }
-  }, [price]);
+  }, [price, currency]);
 
   return (
     <>
       {total && (
-        <div className="w-1/2 p-4 space-y-4">
+        <div className="md:w-1/2 p-4 space-y-4">
           <div
             className={[
               "w-full p-4 text-center",
@@ -64,7 +66,7 @@ export default function ComparePrice(props: Props): JSX.Element {
               className={[
                 "w-full select-none text-center",
                 "tracking-wider text-xl font-medium",
-                "hover:cursor-pointer hover:font-bold",
+                price.taxes_and_fees && "hover:cursor-pointer hover:font-bold",
               ].join(" ")}
               onMouseOver={() => setIsOpen(true)}
               onMouseLeave={() => setIsOpen(false)}
@@ -94,7 +96,7 @@ export default function ComparePrice(props: Props): JSX.Element {
               </div>
             )}
           </Pane>
-          {competitors ? (
+          {competitors && competitors.length > 0 ? (
             <div className="border border-orange-700 overflow-auto max-h-96">
               <Table
                 columns={[

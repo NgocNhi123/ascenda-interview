@@ -1,5 +1,5 @@
 import { Icon, toast } from "@moai/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import HotelItem from "../components/sections/hotelItem";
@@ -20,7 +20,7 @@ const Home = (): JSX.Element => {
     CurrencyType.USD
   );
 
-  const fetchHotelsInfo = async () => {
+  const fetchHotelsInfo = useCallback(async () => {
     try {
       setLoading(true);
       const response = await get(ENDPOINTS.GET.getHotelsInfo);
@@ -31,35 +31,38 @@ const Home = (): JSX.Element => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchHotelPrice = async () => {
+  const fetchHotelPrice = useCallback(async () => {
     if (!currency) return;
     try {
       setLoading(true);
       const response = await get(ENDPOINTS.GET[currency]);
       const pricesResponse: IPrice[] = response.data;
       setPrices(pricesResponse);
-
-      const hotelIds = pricesResponse.map((v) => v.id);
-      const ratesAvailable = hotels.filter((v) => hotelIds.includes(v.id));
-      const ratesUnavailable = hotels.filter((v) => !hotelIds.includes(v.id));
-      setHotels([...ratesAvailable, ...ratesUnavailable]);
     } catch (error) {
       console.error(error);
       toast(toast.types.failure, "Something went wrong, please try again");
     } finally {
       setLoading(false);
     }
-  };
+  }, [currency]);
 
   useEffect(() => {
     fetchHotelsInfo();
-  }, []);
+  }, [fetchHotelsInfo]);
 
   useEffect(() => {
     fetchHotelPrice();
-  }, [currency]);
+  }, [fetchHotelPrice, currency]);
+
+  useEffect(() => {
+    if (!prices) return;
+    const hotelIds = prices.map((v) => v.id);
+    const ratesAvailable = hotels.filter((v) => hotelIds.includes(v.id));
+    const ratesUnavailable = hotels.filter((v) => !hotelIds.includes(v.id));
+    setHotels([...ratesAvailable, ...ratesUnavailable]);
+  }, [prices]);
 
   return (
     <Layout>
