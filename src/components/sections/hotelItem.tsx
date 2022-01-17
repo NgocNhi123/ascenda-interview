@@ -62,8 +62,8 @@ export default function HotelItem(props: Props): JSX.Element {
         <div className="break-words text-lg font-semibold">
           {props.data.name}
         </div>
-        <div className="ml-auto text-center pl-2">
-          {total ? `$${total}` : "Rates unavailable"}
+        <div className="ml-auto text-center pl-2 w-32">
+          {total ? `${total} ${props.currency}` : "Rates unavailable"}
         </div>
       </div>
       <div className="w-2/3 truncate">{props.data.address}</div>

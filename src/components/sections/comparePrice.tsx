@@ -71,7 +71,7 @@ export default function ComparePrice(props: Props): JSX.Element {
               onMouseOver={() => setIsOpen(true)}
               onMouseLeave={() => setIsOpen(false)}
             >
-              Our offer: {total}
+              Our offer: {total} {currency}
               {price.taxes_and_fees && "*"}
             </div>
             {isOpen && price.taxes_and_fees && (
@@ -83,15 +83,16 @@ export default function ComparePrice(props: Props): JSX.Element {
               >
                 <div>
                   <strong>Price: </strong>
-                  {getPrice(price.price, currency)}
+                  {getPrice(price.price, currency)} {currency}
                 </div>
                 <div>
                   <strong>Taxes: </strong>
-                  {getPrice(price.taxes_and_fees.tax, currency)}
+                  {getPrice(price.taxes_and_fees.tax, currency)} {currency}
                 </div>
                 <div>
                   <strong>Fees: </strong>
-                  {getPrice(price.taxes_and_fees.hotel_fees, currency)}
+                  {getPrice(price.taxes_and_fees.hotel_fees, currency)}{" "}
+                  {currency}
                 </div>
               </div>
             )}
@@ -112,7 +113,7 @@ export default function ComparePrice(props: Props): JSX.Element {
                   },
                   {
                     title: "Price",
-                    render: (v) => v[1],
+                    render: (v) => v[1] + " " + currency,
                     className: "border-r border-orange-700 text-center",
                   },
                   {
