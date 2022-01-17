@@ -41,7 +41,7 @@ export default function HotelItem(props: Props): JSX.Element {
   return (
     <div
       className={[
-        "p-4 m-2 sm:w-1/2 md:w-1/3 h-[32rem] space-y-2 bg-orange-200",
+        "p-4 m-2 w-full sm:w-1/2 md:w-1/3 space-y-2 bg-orange-200",
         "flex-shrink-0 flex-grow-0 rounded-md shadow-md",
       ].join(" ")}
     >
@@ -66,7 +66,7 @@ export default function HotelItem(props: Props): JSX.Element {
           {total ? `$${total}` : "Rates unavailable"}
         </div>
       </div>
-      <div className="break-words w-2/3">{props.data.address}</div>
+      <div className="w-2/3 truncate">{props.data.address}</div>
       <div className="flex justify-end">
         <div className="text-amber-600 mr-auto">
           {renderStar(props.data.stars)}

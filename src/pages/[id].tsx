@@ -57,9 +57,15 @@ export default function HotelDetails(): JSX.Element {
   useEffect(() => {
     if (router.query.id) {
       fetchHotelInfo();
+    }
+  }, [router, fetchHotelInfo]);
+
+  useEffect(() => {
+    if (router.query.id) {
+      setPrice(undefined);
       fetchHotelPrice();
     }
-  }, [router, currency, fetchHotelPrice, fetchHotelInfo]);
+  }, [router, currency, fetchHotelPrice]);
 
   return (
     <Layout>
